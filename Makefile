@@ -15,11 +15,11 @@ run:
 	@echo "running air... 💨"
 	air
 
-status:
+status: restart
 	@echo "checking status... 🚦"
 	sudo systemctl status $(SERVICE_NAME)
 
-restart: status
+restart:
 	@echo "restarting service... 🌀"
 	sudo systemctl restart $(SERVICE_NAME)
 	@echo "service restarted ✅"
