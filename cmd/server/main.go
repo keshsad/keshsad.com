@@ -18,8 +18,8 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	http.HandleFunc("/", HomePage)
-	log.Println("keshsad server starting on :8000")
-	if err := http.ListenAndServe(":8000", nil); err != nil {
+	log.Println("keshsad server starting on :42069")
+	if err := http.ListenAndServe(":42069", nil); err != nil {
 		log.Fatal(err)
 	}
 }
