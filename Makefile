@@ -4,8 +4,8 @@
 APP_NAME = keshsad
 SERVICE_NAME_DEV = dev-keshsad-com.service
 SERVICE_NAME_PROD = keshsad-com.service
-PORT ?= 42069
-ENV ?= DEV
+export PORT ?= 42069
+export ENV ?= DEV
 
 all: build
 
