@@ -1,9 +1,11 @@
 .PHONY: all build run restart status deploy
 
 # variables
-APP_NAME=keshsad
-SERVICE_NAME=dev-keshsad-com.service
-PORT=42069
+APP_NAME = keshsad
+SERVICE_NAME_DEV = dev-keshsad-com.service
+SERVICE_NAME_PROD = keshsad-com.service
+PORT ?= 42069
+ENV ?= DEV
 
 all: build
 
@@ -13,20 +15,28 @@ build:
 
 run:
 	@echo "running air... 💨"
-	air
-
-status: restart
-	@echo "checking status... 🚦"
-	sudo systemctl status $(SERVICE_NAME)
+	PORT=$(PORT) ENV=$(ENV) air
 
 restart:
 	@echo "restarting service... 🌀"
-	sudo systemctl restart $(SERVICE_NAME)
-	@echo "service restarted ✅"
+	ifeq ($(ENV),DEV)
+		sudo systemctl restart $(SERVICE_NAME_DEV)
+		@echo "development service restarted ✅"
+	else ifeq ($(ENV),PROD)
+		sudo systemctl restart $(SERVICE_NAME_PROD)
+		@echo "production service restarted ✅"
+
+status: restart
+	@echo "checking status... 🚦"
+	ifeq ($(ENV),DEV)
+		sudo systemctl status $(SERVICE_NAME_DEV)
+	else ifeq ($(ENV),PROD)
+		sudo systemctl status $(SERVICE_NAME_PROD)
 
 deploy:
 	@echo "deploying... 🛩️"
-	git checkout main
-	git merge dev
-	git push origin main
-	@echo "run `make restart` then `make status` to finish deployment"
+	ifeq ($(ENV),DEV)
+		@echo "add, commit, push to dev, then make restart!"
+	else ifeq ($(ENV),PROD)
+		@echo "checkout and merge dev to main, then make restart!"
+	@echo "make status to finish deployment!"
