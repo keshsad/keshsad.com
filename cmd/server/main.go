@@ -92,8 +92,11 @@ func main() {
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("/article/", articleHandler)
 
-	log.Println("keshsad server starting on :42069")
-	if err := http.ListenAndServe(":42069", mux); err != nil {
+	port := os.Getenv("PORT")
+	env := os.Getenv("ENV")
+
+	log.Printf("keshsad server running on port :%s in %s environment", port, env)
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)
 	}
 }
