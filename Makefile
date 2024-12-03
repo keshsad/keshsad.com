@@ -12,6 +12,7 @@ all: build
 build:
 	@echo "building site... 🏗️"
 	PORT=$(PORT) ENV=$(ENV) go build -o ./cmd/$(APP_NAME) ./cmd/server/main.go
+	chmod +x ./cmd/$(APP_NAME)
 
 run:
 	@echo "running air... 💨"
