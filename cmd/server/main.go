@@ -53,19 +53,24 @@ func init() {
 	}
 }
 
-func HomePage(w http.ResponseWriter, r *http.Request) {
-	// prep data for template
-	pageVariables := PageVars{
-		TabTitle:  "keshsad.com",
-		PageTitle: "Welcome to keshsad.com",
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("web/templates/index.html"))
+	pageVars := PageVars{
+		TabTitle:  "keshsad",
+		PageTitle: "keshsad.com Index Page",
 	}
 
-	// parse template
-	tmpl, err := template.ParseFiles("web/templates/index.html")
+	err := tmpl.Execute(w, struct {
+		PageVars
+		Articles []Article
+	}{
+		PageVars: pageVars,
+		Articles: articles,
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
+}
 
 	// execute template
 	if err := tmpl.Execute(w, pageVariables); err != nil {
