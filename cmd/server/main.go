@@ -1,12 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
-// define template structure
 type PageVars struct {
 	TabTitle  string
 	PageTitle string
