@@ -57,19 +57,27 @@
           intern
         </li>
       </ul>
-      <p>Writing:</p>
+      <h3>Articles:</h3>
       <ul>
-        <li>
-          [A single technical blog post about something I've built/learned -
-          maybe about Go's standard library or why I chose certain technical
-          decisions]
-        </li>
-        <li>
-          [Or another article about how/why I spent $1k on my own personal
-          server, (and of course how to set it up)]
-        </li>
+        {{range .Articles}}
+        <li><a href="/article/{{.Slug}}">{{.Title}}</a></li>
+        {{end}}
       </ul>
-      <p>Get in touch:</p>
+      <!--<li><a href="/frag">Against Fragmentation</a></li>-->
+      <!--<li><a href="/gtmx">Go & HTMX</a></li>-->
+      <!--<li><a href="/phil">Stoic Journaling</a></li>-->
+      <!--<li><a href="/site">Websites Engineering</a></li>-->
+      <!--<li><a href="/found">Student Founders</a></li>-->
+      <!--<li><a href="/music">Full-Stack Producing</a></li>-->
+      <!--<li>-->
+      <!--  [A single technical blog post about something I've built/learned --->
+      <!--  maybe about Go's standard library or why I chose certain technical-->
+      <!--  decisions]-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--  [Or another article about how/why I spent $1k on my own personal-->
+      <!--  server, (and of course how to set it up)]-->
+      <!--</li>-->
       <ul>
         <li>
           Email:
