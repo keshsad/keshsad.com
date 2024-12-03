@@ -15,10 +15,12 @@ type PageVars struct {
 	PageTitle string
 }
 
-func main() {
-	// serve static files first
-	fs := http.FileServer(http.Dir("web/static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+type Article struct {
+	FileName string
+	Slug     string
+	Title    string
+	Content  []string
+}
 
 	http.HandleFunc("/", HomePage)
 	log.Println("keshsad server starting on :42069")
