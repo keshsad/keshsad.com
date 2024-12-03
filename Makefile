@@ -1,24 +1,21 @@
-.PHONY: all build run restart status deploy
+.PHONY: run build restart status dev prod
 
-# variables
 APP_NAME = keshsad
 SERVICE_NAME_DEV = dev-keshsad-com.service
 SERVICE_NAME_PROD = keshsad-com.service
 export PORT ?= 42069
 export ENV ?= DEV
 
-all: build
+run:
+	@echo "running air... 💨"
+	PORT=$(PORT) ENV=$(ENV) ~/go/bin/air
 
 build:
 	@echo "building site... 🏗️"
-	PORT=$(PORT) ENV=$(ENV) go build -o ./cmd/$(APP_NAME) ./cmd/server/main.go
+	PORT=$(PORT) ENV=$(ENV) go build -o ./cmd/$(APP_NAME) ./cmd/server
 	chmod +x ./cmd/$(APP_NAME)
 
-run:
-	@echo "running air... 💨"
-	PORT=$(PORT) ENV=$(ENV) air
-
-restart:
+restart: build
 	@echo "restarting service... 🌀"
 	ifeq ($(ENV),DEV)
 		sudo systemctl restart $(SERVICE_NAME_DEV)
@@ -36,11 +33,16 @@ status: restart
 		sudo systemctl status $(SERVICE_NAME_PROD)
 	endif
 
-deploy:
-	@echo "deploying... 🛩️"
-	ifeq ($(ENV),DEV)
-		@echo "add, commit, push to dev, then make restart!"
-	else ifeq ($(ENV),PROD)
-		@echo "checkout and merge dev to main, then make restart!"
-	endif
-	@echo "make status to finish deployment!"
+dev:
+	@if [ "$(shell uname)" = "Darwin" ]; then \
+		PORT-42069 ENV=DEV air; \
+	else \
+		sudo systemctl restart $(SERVICE_NAME_DEV)
+	fi
+
+prod:
+	@if [ "$(shell uname) = "Darwin" ]; then \
+		PORT=8000 ENV=PROD go run cmd/server/main.go; \
+	else \
+		sudo systemctl restart $(SERVICE_NAME_PROD)
+	fi
