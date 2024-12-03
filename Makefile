@@ -26,6 +26,7 @@ restart:
 	else ifeq ($(ENV),PROD)
 		sudo systemctl restart $(SERVICE_NAME_PROD)
 		@echo "production service restarted ✅"
+	endif
 
 status: restart
 	@echo "checking status... 🚦"
@@ -33,6 +34,7 @@ status: restart
 		sudo systemctl status $(SERVICE_NAME_DEV)
 	else ifeq ($(ENV),PROD)
 		sudo systemctl status $(SERVICE_NAME_PROD)
+	endif
 
 deploy:
 	@echo "deploying... 🛩️"
@@ -40,4 +42,5 @@ deploy:
 		@echo "add, commit, push to dev, then make restart!"
 	else ifeq ($(ENV),PROD)
 		@echo "checkout and merge dev to main, then make restart!"
+	endif
 	@echo "make status to finish deployment!"
