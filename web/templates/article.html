@@ -1,22 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="go-import"
+      content="keshsad.com git https://github.com/keshsad/keshsad.com"
+    />
+    <title>{{.Title}}</title>
+    <link href="/static/style.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="go-import" content="keshsad.com git https://github.com/keshsad/keshsad.com" />
-  <title>{{.TabTitle}}</title>
-  <link href="/static/style.css" rel="stylesheet" />
-</head>
-
-<body>
-  <div class="">
-    <h1>{{.PageTitle}}</h1>
-    <p>
-      test
-    </p>
-    <a href="/">back</a>
-  </div>
-</body>
-
+  <body>
+    <div class="">
+      <h1>{{.Title}}</h1>
+      {{ range .Content }}
+      <p>{{ . }}</p>
+      {{ end }}
+      <a href="/">Back</a>
+    </div>
+  </body>
 </html>
