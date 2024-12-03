@@ -72,10 +72,16 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-	// execute template
-	if err := tmpl.Execute(w, pageVariables); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	} else {
-		log.Println("homepage hit")
+func articleHandler(w http.ResponseWriter, r *http.Request) {
+	articleSlug := r.URL.Path[len("/article/"):]
+	for _, article := range articles {
+		if article.Slug == articleSlug {
+			tmpl := template.Must(template.ParseFiles("web/templates/article.html"))
+			tmpl.Execute(w, article)
+			return
+		}
+	}
+	http.NotFound(w, r)
+}
 	}
 }
