@@ -83,5 +83,17 @@ func articleHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	http.NotFound(w, r)
 }
+
+func main() {
+	fs := http.FileServer(http.Dir("web/static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/article/", articleHandler)
+
+	log.Println("keshsad server starting on :42069")
+	if err := http.ListenAndServe(":42069", mux); err != nil {
+		log.Fatal(err)
 	}
 }
