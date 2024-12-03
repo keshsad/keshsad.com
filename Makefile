@@ -9,7 +9,7 @@ all: build
 
 build:
 	@echo "building site... 🏗️"
-	go build -o $(APP_NAME) ./cmd/server/main.go
+	go build -o ./cmd/$(APP_NAME) ./cmd/server/main.go
 
 run:
 	@echo "running air... 💨"
