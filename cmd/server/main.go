@@ -22,10 +22,34 @@ type Article struct {
 	Content  []string
 }
 
-	http.HandleFunc("/", HomePage)
-	log.Println("keshsad server starting on :42069")
-	if err := http.ListenAndServe(":42069", nil); err != nil {
-		log.Fatal(err)
+var articles []Article
+
+func init() {
+	log.Println("Initializing articles...")
+	files, err := os.ReadDir("content/articles")
+	if err != nil {
+		fmt.Printf("Error reading /content/articles/: %v\n", err)
+		return
+	}
+
+	for _, file := range files {
+		if filepath.Ext(file.Name()) == ".md" {
+			content, err := os.ReadFile(filepath.Join("content/articles", file.Name()))
+			if err != nil {
+				fmt.Println("Error reading file:", err)
+				continue
+			}
+
+			lines := strings.Split(string(content), "\n")
+			if len(lines) > 0 {
+				articles = append(articles, Article{
+					FileName: file.Name(),
+					Slug:     strings.TrimSuffix(file.Name(), filepath.Ext(file.Name())),
+					Title:    strings.TrimPrefix(lines[0], "# "),
+					Content:  lines[1:],
+				})
+			}
+		}
 	}
 }
 
