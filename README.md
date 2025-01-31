@@ -1,2 +1,2 @@
 # keshsad.com
-personal landing
+professional landing page
